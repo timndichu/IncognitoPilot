@@ -1,6 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+@layer base{
+  :root {
+    --arrowBtnBgLight: "#292D32",
+    --arrowBtnBgDark: "#1E1E1E",
+  }
+
+}
 
 :root {
   --scrollbar-color: rgba(23, 37, 84, 0.2);
