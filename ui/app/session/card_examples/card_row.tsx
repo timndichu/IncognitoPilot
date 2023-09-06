@@ -15,7 +15,7 @@ const CardRow = ({ colorMode }: { colorMode: string }) => {
 
   return (
     <div className="flex justify-center gap-8">
-      <div className="flex flex-col items-center p-4 w-64 bg-cardLight rounded-3xl h-max dark:bg-cardDark">
+      <div className="flex flex-col items-center p-4 w-auto max-w-64 h-auto bg-cardLight rounded-3xl  dark:bg-cardDark">
         <AiOutlineComment size={48} color={iconColor} />
         <h1 className="font-semibold mt-4 mb-4 text-2xl text-black dark:text-white">
           Example
@@ -69,7 +69,7 @@ const CardRow = ({ colorMode }: { colorMode: string }) => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center p-4 w-64 bg-cardLight rounded-3xl h-max dark:bg-cardDark">
+      <div className="flex flex-col items-center p-4 w-auto max-w-64 h-auto bg-cardLight rounded-3xl  dark:bg-cardDark">
         <BsFillCpuFill size={48} color={iconColor} />
         <h1 className="font-semibold mt-4 mb-4 text-2xl text-black dark:text-white">
           Capabilities
@@ -92,7 +92,7 @@ const CardRow = ({ colorMode }: { colorMode: string }) => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center p-4 w-64 bg-cardLight rounded-3xl h-max dark:bg-cardDark">
+      <div className="flex flex-col items-center p-4 w-auto max-w-64 h-auto bg-cardLight rounded-3xl  dark:bg-cardDark">
         <PiWarningDiamondDuotone size={48} color={iconColor} />
         <h1 className="font-semibold mt-4 mb-4 text-2xl text-black dark:text-white">
           Limitations

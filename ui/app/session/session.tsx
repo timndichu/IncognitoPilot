@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Message } from "@/app/session/communication/message";
 import ChatInput from "@/app/session/chat/chat_input";
 import ChatHistory from "@/app/session/chat/chat_history";
@@ -15,8 +15,12 @@ import useScroller from "@/app/helper/scroller";
 import { AUTH_ERROR_MSG, AuthContext } from "@/app/authentication";
 import CardRow from "./card_examples/card_row";
 import useColorMode from "../hooks/useColorMode";
-import { MdNightlightRound } from "react-icons/md";
-import { BsFillSunFill } from "react-icons/bs";
+import { IoMdAddCircle } from "react-icons/io";
+
+import { HiMenuAlt1 } from "react-icons/hi";
+import { Drawer } from "@material-tailwind/react";
+import SideDrawer from "./drawer/side_drawer";
+import { PiWarningDiamondDuotone } from "react-icons/pi";
 
 export default function Session({
   refreshSession,
@@ -87,65 +91,144 @@ export default function Session({
 
   const scrollRef = useScroller(history);
 
+  const iconColor = colorMode === "dark" ? "#FFC300" : "#865E42";
+
   const toggleTheme = () => {
     setColorMode(colorMode === "light" ? "dark" : "light");
   };
 
+  const [open, setOpen] = React.useState(false);
+
+  const openDrawer = () => setOpen(true);
+  const closeDrawer = () => setOpen(false);
+
   return (
-    <div className="flex relative h-screen bg-main_bg_light overflow-x-hidden w-screen dark:bg-main_bg_dark">
-      <div className="absolute top-0 left-0 ">
-        <Header
-          error={error}
-          onNew={refreshSession}
-          showNew={history.length > 0}
-        />
-      </div>
-      {/* side menu */}
-      <div
-        className={`hidden md:block w-72 bg-sidemenu_bg_light rounded-2xl m-3 h-full shadow-sm dark:bg-sidemenu_bg_dark`}
-      >
-        {/* toggle theme */}
-        <button
-          onClick={toggleTheme}
-          className="flex m-2 p-2 bg-slate-200 rounded-xl hover:text-purple-200 hover:bg-slate-700 transition ease-in duration-200 dark:hover:bg-cardDark dark:bg-slate-700 dark:text-gray-200 dark:hover:text-purple-700"
-        >
-          {colorMode === "light" ? (
-            <MdNightlightRound size={24} />
-          ) : (
-            <BsFillSunFill size={24} />
-          )}
-          <span className="ml-2">Toggle Theme</span>
+    <div className="flex flex-col h-screen w-screen overflow-x-hidden">
+      {/* mobile nav bar */}
+      <div className="flex justify-between items-center w-full bg-brown-600  h-12 shadow-sm dark:bg-cardDark md:hidden ">
+        {/* new chat btn */}
+        <button className=" text-gray-200 ml-2" onClick={openDrawer}>
+          <HiMenuAlt1 size={28} />
+        </button>
+        <span className="text-gray-200 font-semibold text-xl ">New chat</span>
+        <button className=" text-gray-200 mr-2 ">
+          <IoMdAddCircle size={28} />
         </button>
       </div>
 
-      {/* right side main content */}
-      <div className={`flex items-center flex-col w-full`}>
-        <div
-          className="flex-1 h-2 overflow-y-auto px-2 flex-col w-full max-w-6xl"
-          ref={scrollRef}
-        >
-          {history.length === 0 ? (
-            <Brand />
-          ) : (
-            <ChatHistory
-              history={history}
-              thinking={chatRoundState === "waiting for model"}
-            />
-          )}
-          {/* ---------------example cards----------------- */}
-          <div className="hidden lg:block mt-8 mb-4 w-full">
-            <CardRow colorMode={colorMode} />
-          </div>
+      {/* drawer for mobile */}
+      <Drawer
+        open={open}
+        onClose={closeDrawer}
+        className="flex flex-col w-72 p-4 bg-sidemenu_bg_light h-full gap-4 shadow-sm dark:bg-sidemenu_bg_dark md:hidden"
+      >
+        <SideDrawer
+          colorMode={colorMode}
+          closeDrawer={closeDrawer}
+          toggleTheme={toggleTheme}
+        />
+      </Drawer>
+
+      <div className="flex relative h-screen bg-main_bg_light overflow-x-hidden w-screen dark:bg-main_bg_dark">
+        <div className="absolute top-0 left-0 ">
+          <Header
+            error={error}
+            onNew={refreshSession}
+            showNew={history.length > 0}
+          />
         </div>
 
-        {/* ------------chat input------------------------ */}
-        <div className="mt-8 mb-4 px-8 w-full max-w-4xl md:px-2">
-          <ChatInput
-            colorMode={colorMode}
-            innerRef={chatInputRef}
-            disabled={chatRoundState !== "not active" || error !== null}
-            onMessage={startChatRound}
-          />
+        {/*------------- side menu----------------- */}
+        <div
+          className={`hidden md:flex flex-col w-72 p-4 bg-sidemenu_bg_light rounded-2xl m-3 h-full gap-4 shadow-sm dark:bg-sidemenu_bg_dark`}
+        >
+          <SideDrawer colorMode={colorMode} toggleTheme={toggleTheme} />
+        </div>
+
+        {/*----------------------- right side main content------------------------------------------- */}
+        <div className={`flex items-center flex-col w-full`}>
+          <div
+            className="flex-1 h-2 overflow-y-auto px-2 flex-col w-full max-w-6xl"
+            ref={scrollRef}
+          >
+            {/* afrineuron logo */}
+            {history.length === 0 ? (
+              <Brand />
+            ) : (
+              <ChatHistory
+                history={history}
+                thinking={chatRoundState === "waiting for model"}
+              />
+            )}
+            {/* ---------------example cards----------------- */}
+            <div className="hidden lg:block mt-8 mb-4 w-full">
+              <CardRow colorMode={colorMode} />
+            </div>
+
+            {/* ---------------mobile only content----------------- */}
+
+            <div className="flex flex-col items-center mt-4 lg:hidden gap-4">
+              {/* limitations */}
+
+              <div className="h-auto w-auto mx-4 flex items-center bg-cardLight rounded-xl border border-gray-200 p-4 dark:bg-cardDark dark:border-gray-900">
+                <div className="w-11/12 flex flex-col">
+                  <h2 className="text-gray-800 text-xl font-semibold mb-2 dark:text-white">
+                    Limitations
+                  </h2>
+                  <p className="text-gray-800 text-sm dark:text-white">
+                    The AI model is currently under development.
+                  </p>
+                  <p className="text-gray-800 text-sm dark:text-white">
+                    Potential for bias responses
+                  </p>
+                  <p className="text-gray-800 text-sm dark:text-white">
+                    Limited knowledge of events past 2021
+                  </p>
+                </div>
+                {/* icon */}
+                <div className="ml-4">
+                  <PiWarningDiamondDuotone size={48} color={iconColor} />
+                </div>
+              </div>
+
+              {/* bot icon */}
+              <div className="w-16 flex justify-center items-center mt-4">
+                <img src="/bot.png" alt="Brand" />
+              </div>
+            </div>
+          </div>
+
+          {/* examples column */}
+          <div className="px-8 w-full max-w-4xl flex flex-col items-center gap-4 lg:hidden ">
+            <div className="h-auto w-full mx-4 flex flex-col bg-cardLight rounded-lg border border-gray-200 p-2 hover:cursor-pointer dark:bg-cardDark dark:border-gray-900">
+              <p className="text-gray-800 text-md font-semibold mb-1 dark:text-white">
+                Make up a story
+              </p>
+              <p className="text-gray-800 text-sm dark:text-white">
+                about Sharky, a baby shark in a pond
+              </p>
+            </div>
+
+            <div className="h-auto w-full mx-4 flex flex-col bg-cardLight rounded-lg border border-gray-200 p-2 hover:cursor-pointer dark:bg-cardDark dark:border-gray-900">
+              <p className="text-gray-800 text-md font-semibold mb-1 dark:text-white">
+                Analyze my pdf
+              </p>
+              <p className="text-gray-800 text-sm dark:text-white">
+                and plot a graph from the data
+              </p>
+            </div>
+          </div>
+
+          <hr className="w-full my-2 border-t-2 dark:border-gray-900 lg:hidden" />
+          {/* ------------chat input------------------------ */}
+          <div className="mb-4 px-8 w-full max-w-4xl md:px-2">
+            <ChatInput
+              colorMode={colorMode}
+              innerRef={chatInputRef}
+              disabled={chatRoundState !== "not active" || error !== null}
+              onMessage={startChatRound}
+            />
+          </div>
         </div>
       </div>
     </div>

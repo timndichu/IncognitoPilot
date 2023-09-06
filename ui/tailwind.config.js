@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,6 +13,9 @@ module.exports = {
     extend: {
       flex: {
         2: "2 2 0%",
+      },
+      maxWidth: {
+        '64': '16rem', // Replace '16rem' with your desired maximum width value
       },
       colors: {
         main_bg_light: "#F8F8FC",
@@ -33,4 +39,4 @@ module.exports = {
     },
   },
   plugins: [],
-};
+});
