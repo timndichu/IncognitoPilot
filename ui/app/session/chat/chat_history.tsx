@@ -22,7 +22,7 @@ export default function ChatHistory({
         <div key={idx} className="flex mt-4">
           {msg.role === "model" ? (
             <div className="mr-4 mt-2 min-w-[36px] relative">
-              <img src="./icon.png" alt="robot" width={36} />
+              <img src="./bot.png" alt="robot" width={36} />
               {thinking && idx === historyFiltered.length - 1 && (
                 <img
                   src="./thinking.gif"

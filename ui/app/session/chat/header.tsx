@@ -26,7 +26,7 @@ export function Header({
           </div>
         </div>
       )}
-      {error === null && showNew && (
+      {/* {error === null && showNew && (
         <div className="absolute p-4 z-10">
           <button
             className="px-4 py-2 bg-blue-300 hover:bg-blue-400 active:bg-blue-500 text-white rounded-md drop-shadow-lg"
@@ -35,7 +35,7 @@ export function Header({
             New chat
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

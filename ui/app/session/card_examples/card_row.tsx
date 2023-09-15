@@ -9,7 +9,7 @@ import { PiWarningDiamondDuotone } from "react-icons/pi";
 
 import { BsFillCpuFill } from "react-icons/bs";
 
-const CardRow = ({ colorMode }: { colorMode: string }) => {
+const CardRow = ({ colorMode, setExampleMessage }: { colorMode: string, setExampleMessage: (message: string) => void }) => {
   // Conditionally set the color for the icon
   const iconColor = colorMode === "dark" ? "#FFC300" : "#865E42";
 
@@ -20,7 +20,7 @@ const CardRow = ({ colorMode }: { colorMode: string }) => {
         <h1 className="font-semibold mt-4 mb-4 text-2xl text-black dark:text-white">
           Example
         </h1>
-        <div className="flex justify-between items-center w-full h-12 bg-textContainerLight rounded-lg mt-4 p-2 dark:bg-textContainerDark">
+        <button onClick={()=> setExampleMessage('Explain the concept of supply and demand')} className="flex justify-between items-center w-full h-12 bg-textContainerLight rounded-lg mt-4 p-2 dark:bg-textContainerDark">
           <span className="text-textContainerDark font-semibold text-sm text-left w-10/12 dark:text-white">
             &quot;Explain the concept of supply and demand&quot;
           </span>
@@ -31,12 +31,12 @@ const CardRow = ({ colorMode }: { colorMode: string }) => {
           >
             <BsFillArrowRightCircleFill
               size={26}
-              className="hover:cursor-pointer"
+             
             />
           </IconContext.Provider>
-        </div>
+        </button>
 
-        <div className="flex justify-between items-center w-full h-12 bg-textContainerLight rounded-lg mt-4 p-2 dark:bg-textContainerDark">
+        <button onClick={()=> setExampleMessage('Write an essay for me')} className="flex justify-between items-center w-full h-12 bg-textContainerLight rounded-lg mt-4 p-2 dark:bg-textContainerDark">
           <span className="text-textContainerDark font-semibold text-sm text-left w-10/12 dark:text-white">
             &quot;Write an essay for me&quot;
           </span>
@@ -47,12 +47,12 @@ const CardRow = ({ colorMode }: { colorMode: string }) => {
           >
             <BsFillArrowRightCircleFill
               size={26}
-              className="hover:cursor-pointer"
+           
             />
           </IconContext.Provider>
-        </div>
+        </button>
 
-        <div className="flex justify-between items-center w-full h-12 bg-textContainerLight rounded-lg mt-4 p-2 dark:bg-textContainerDark">
+        <button onClick={()=> setExampleMessage('Can you elaborate on the Big Bang for me')} className="flex justify-between items-center w-full h-12 bg-textContainerLight rounded-lg mt-4 p-2 dark:bg-textContainerDark">
           <span className="text-textContainerDark font-semibold text-sm text-left w-10/12 dark:text-white">
             &quot;Can you elaborate on the Big Bang for me?&quot;
           </span>
@@ -63,10 +63,10 @@ const CardRow = ({ colorMode }: { colorMode: string }) => {
           >
             <BsFillArrowRightCircleFill
               size={26}
-              className="hover:cursor-pointer"
+            
             />
           </IconContext.Provider>
-        </div>
+        </button>
       </div>
 
       <div className="flex flex-col items-center p-4 w-auto max-w-64 h-auto bg-cardLight rounded-3xl  dark:bg-cardDark">

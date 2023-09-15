@@ -29,11 +29,15 @@ Also have a look at the overall [architecture](/docs/architecture.png) first.
 First, create a venv somewhere on your system, where ipython will run your code:
 
 ```shell
-cd /home/user  # the venv can be located anywhere
+# cd /home/user  # the venv can be located anywhere
+# python -m venv venv_interpreter
+# source venv_interpreter/bin/activate
+# pip install ipython
+# pip install ...  # install whatever packages you like
+cd /c/DEVELOPMENT/Afrineuron/py_env
 python -m venv venv_interpreter
-source venv_interpreter/bin/activate
+source venv_interpreter/Scripts/activate
 pip install ipython
-pip install ...  # install whatever packages you like
 ```
 
 Now open a terminal in the *services* folder and run the following:
@@ -42,11 +46,16 @@ Now open a terminal in the *services* folder and run the following:
 poetry install
 poetry shell
 
-export IPYTHON_PATH="/home/user/venv_interpreter/bin/ipython"
-export WORKING_DIRECTORY="/home/user/ipilot"
+# export IPYTHON_PATH="/home/user/venv_interpreter/bin/ipython"
+# export WORKING_DIRECTORY="/home/user/ipilot"
+# export ALLOWED_HOSTS="localhost:3000"
+# export ENABLE_CORS="TRUE"
+# export OPENAI_API_KEY=sk-your-api-key
+export IPYTHON_PATH="/c/DEVELOPMENT/Afrineuron/py_env/venv_interpreter/bin/ipython"
+export WORKING_DIRECTORY="/c/DEVELOPMENT/Afrineuron/ipilot"
 export ALLOWED_HOSTS="localhost:3000"
 export ENABLE_CORS="TRUE"
-export OPENAI_API_KEY=sk-your-api-key
+export OPENAI_API_KEY=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
 
 uvicorn main:app --reload
 ```

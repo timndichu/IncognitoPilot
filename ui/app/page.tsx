@@ -3,6 +3,7 @@ import SessionManager from "@/app/session/session_manager";
 import path from "path";
 import * as fs from "fs";
 import Authentication from "@/app/authentication";
+import { ResponseProvider } from "./contexts/responseContext";
 
 function getVersion(): Promise<string> {
   const versionDir = path.dirname(
@@ -23,7 +24,9 @@ function getVersion(): Promise<string> {
 export default async function Home() {
   return (
     <Authentication>
-      <SessionManager version={await getVersion()} />
+      <ResponseProvider>
+        <SessionManager version={await getVersion()} />
+      </ResponseProvider>
     </Authentication>
   );
 }

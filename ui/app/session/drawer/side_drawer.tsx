@@ -8,15 +8,16 @@ interface Props {
   colorMode: string;
   toggleTheme: () => void;
   closeDrawer?: () => void;
+  refreshSession: () => void;
 }
 
-const SideDrawer = ({ colorMode, toggleTheme, closeDrawer }: Props) => {
+const SideDrawer = ({ colorMode, toggleTheme, closeDrawer, refreshSession }: Props) => {
   return (
     <div className="flex flex-col h-full gap-4">
       {/* new chat btn */}
       <div className="flex justify-between items-center">
         <button
-          // onClick={toggleTheme}
+          onClick={refreshSession}
           className="flex p-2 px-4 w-52 bg-gray-100 border border-gray-300 rounded-lg text-gray-800 dark:text-gray-200 dark:bg-cardDark dark:border-gray-900"
         >
           <IoMdAddCircle size={24} />

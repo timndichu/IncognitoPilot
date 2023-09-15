@@ -22,6 +22,8 @@ import { Drawer } from "@material-tailwind/react";
 import SideDrawer from "./drawer/side_drawer";
 import { PiWarningDiamondDuotone } from "react-icons/pi";
 
+import { useResponseContext } from "../contexts/responseContext";
+
 export default function Session({
   refreshSession,
   version,
@@ -32,6 +34,9 @@ export default function Session({
   const [history, setHistory] = React.useState<Message[]>([]);
   const [error, setError] = React.useState<string | null>(null);
   const [showIO, setShowIO] = React.useState<boolean>(false);
+
+  const { isGeneratingResponse, toggleResponseGeneration } = useResponseContext();
+
 
   const [chatRoundState, setChatRoundState] =
     React.useState<ChatRoundState>("not active");
@@ -71,6 +76,7 @@ export default function Session({
       setError(AUTH_ERROR_MSG);
       return;
     }
+    toggleResponseGeneration(true);
     const chatRound = new ChatRound(
       history,
       setHistory,
@@ -99,8 +105,15 @@ export default function Session({
 
   const [open, setOpen] = React.useState(false);
 
+  const [exampleMessage, setExampleMessage] = useState("");
+
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
+
+  const handleSetExampleMessage = (message: string) => {
+    setExampleMessage(message);
+    console.log('message: ', message)
+  };
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-x-hidden">
@@ -111,7 +124,7 @@ export default function Session({
           <HiMenuAlt1 size={28} />
         </button>
         <span className="text-gray-200 font-semibold text-xl ">New chat</span>
-        <button className=" text-gray-200 mr-2 ">
+        <button onClick={refreshSession} className=" text-gray-200 mr-2 ">
           <IoMdAddCircle size={28} />
         </button>
       </div>
@@ -126,6 +139,7 @@ export default function Session({
           colorMode={colorMode}
           closeDrawer={closeDrawer}
           toggleTheme={toggleTheme}
+          refreshSession={refreshSession}
         />
       </Drawer>
 
@@ -142,7 +156,7 @@ export default function Session({
         <div
           className={`hidden md:flex flex-col w-72 p-4 bg-sidemenu_bg_light rounded-2xl m-3 h-full gap-4 shadow-sm dark:bg-sidemenu_bg_dark`}
         >
-          <SideDrawer colorMode={colorMode} toggleTheme={toggleTheme} />
+          <SideDrawer colorMode={colorMode} toggleTheme={toggleTheme} refreshSession={refreshSession} />
         </div>
 
         {/*----------------------- right side main content------------------------------------------- */}
@@ -161,13 +175,13 @@ export default function Session({
               />
             )}
             {/* ---------------example cards----------------- */}
-            <div className="hidden lg:block mt-8 mb-4 w-full">
-              <CardRow colorMode={colorMode} />
+            <div className={`hidden lg:block mt-8 mb-4 w-full ${isGeneratingResponse ? 'lg:hidden' : 'lg:block'}`}>
+              <CardRow setExampleMessage={handleSetExampleMessage} colorMode={colorMode} />
             </div>
 
             {/* ---------------mobile only content----------------- */}
 
-            <div className="flex flex-col items-center mt-4 lg:hidden gap-4">
+            <div className={`flex flex-col items-center mt-4 lg:hidden gap-4 ${isGeneratingResponse ? 'hidden' : 'block'}`}>
               {/* limitations */}
 
               <div className="h-auto w-auto mx-4 flex items-center bg-cardLight rounded-xl border border-gray-200 p-4 dark:bg-cardDark dark:border-gray-900">
@@ -199,7 +213,7 @@ export default function Session({
           </div>
 
           {/* examples column */}
-          <div className="px-8 w-full max-w-4xl flex flex-col items-center gap-4 lg:hidden ">
+          <div className={`px-8 w-full max-w-4xl flex flex-col items-center gap-4 lg:hidden ${isGeneratingResponse ? 'hidden' : 'block'}`}>
             <div className="h-auto w-full mx-4 flex flex-col bg-cardLight rounded-lg border border-gray-200 p-2 hover:cursor-pointer dark:bg-cardDark dark:border-gray-900">
               <p className="text-gray-800 text-md font-semibold mb-1 dark:text-white">
                 Make up a story
@@ -227,6 +241,7 @@ export default function Session({
               innerRef={chatInputRef}
               disabled={chatRoundState !== "not active" || error !== null}
               onMessage={startChatRound}
+              exampleMessage={exampleMessage}
             />
           </div>
         </div>
