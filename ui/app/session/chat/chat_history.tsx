@@ -47,7 +47,7 @@ export default function ChatHistory({
 
   console.log("historyFiltered: ", historyFiltered);
   return (
-    <div className="mt-10 mb-10">
+    <div className="flex flex-col gap-4 mt-10 mb-10">
       {historyFiltered.map((msg, idx) => (
         <div key={idx} className="flex mt-4">
           {msg.role === "model" ? (
@@ -75,59 +75,6 @@ export default function ChatHistory({
             {/* generated text */}
 
             {msg.text === "" || msg.text === undefined ? "..." : msg.text}
-
-            {/*------------- code generation section------------------------ */}
-            {/* button to toggle visibility of the section */}
-            {msg.role !== "user" && (
-              <div className={`${code !== null ? "block" : "hidden"}`}>
-                <button
-                  autoFocus
-                  className=" m-2 p-2 bg-gray-300 text-black rounded-full"
-                  onClick={() => setShowIO(!showIO)} // Toggle the state on button click
-                >
-                  {showIO ? "Hide Code" : "Show Code"}
-                </button>
-
-                {/* the section itself */}
-                <div
-                  className={` w-full h-auto px-4 transition-all duration-500 ${
-                    showIO ? "flex flex-col" : "hidden"
-                  }`}
-                >
-                  <div className="flex-1 flex flex-col h-0">
-                    <div className="flex-1 h-0">
-                      <InterpreterIO
-                        title="Code"
-                        content={code}
-                        askApprove={askApproveIn}
-                        autoApprove={autoApproveIn}
-                        approver={approverIn}
-                        disabled={error !== null}
-                        busy={false}
-                        language="python"
-                        colorMode={colorMode}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-1 flex flex-col h-0">
-                    <div className="flex-1 h-0">
-                      <InterpreterIO
-                        title="Result"
-                        content={codeResult}
-                        askApprove={askApproveOut}
-                        autoApprove={autoApproveOut}
-                        approver={approverOut}
-                        disabled={error !== null}
-                        busy={chatRoundState === "waiting for interpreter"}
-                        language="text"
-                        colorMode={colorMode}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-        
           </div>
           {msg.role === "user" ? (
             <div className="ml-4 mt-2 dark:text-gray-300">
@@ -138,6 +85,76 @@ export default function ChatHistory({
           )}
         </div>
       ))}
+
+      {/*------------- code generation section------------------------ */}
+
+      <div className="flex mt-4">
+        <div className="mr-4 mt-2 min-w-[36px] relative">
+          <img src="./bot.png" alt="robot" width={36} />
+          {thinking && (
+            <img
+              src="./thinking.gif"
+              alt="thinking"
+              className="absolute block w-[30px] top-[-20px] right-[-30px] z-10"
+            />
+          )}
+        </div>
+
+        <div
+          className={`${
+            code !== null
+              ? "block bg-white dark:bg-textContainerDark h-max-content drop-shadow-sm rounded-md p-4 whitespace-pre-wrap dark:text-white"
+              : "hidden"
+          }`}
+        >
+          {/* button to toggle visibility of the section */}
+          <button
+            autoFocus
+            className=" m-2 p-2 bg-gray-300 text-black rounded-full"
+            onClick={() => setShowIO(!showIO)} // Toggle the state on button click
+          >
+            {showIO ? "Hide Code" : "Show Code"}
+          </button>
+
+          {/* the section itself */}
+          <div
+            className={` w-full h-auto px-4 transition-all duration-500 ${
+              showIO ? "flex flex-col" : "hidden"
+            }`}
+          >
+            <div className="flex-1 flex flex-col h-0">
+              <div className="flex-1 h-0">
+                <InterpreterIO
+                  title="Code"
+                  content={code}
+                  askApprove={askApproveIn}
+                  autoApprove={autoApproveIn}
+                  approver={approverIn}
+                  disabled={error !== null}
+                  busy={false}
+                  language="python"
+                  colorMode={colorMode}
+                />
+              </div>
+            </div>
+            <div className="flex-1 flex flex-col h-0">
+              <div className="flex-1 h-0">
+                <InterpreterIO
+                  title="Result"
+                  content={codeResult}
+                  askApprove={askApproveOut}
+                  autoApprove={autoApproveOut}
+                  approver={approverOut}
+                  disabled={error !== null}
+                  busy={chatRoundState === "waiting for interpreter"}
+                  language="text"
+                  colorMode={colorMode}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
