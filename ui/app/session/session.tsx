@@ -35,8 +35,8 @@ export default function Session({
   const [error, setError] = React.useState<string | null>(null);
   const [showIO, setShowIO] = React.useState<boolean>(false);
 
-  const { isGeneratingResponse, toggleResponseGeneration } = useResponseContext();
-
+  const { isGeneratingResponse, toggleResponseGeneration } =
+    useResponseContext();
 
   const [chatRoundState, setChatRoundState] =
     React.useState<ChatRoundState>("not active");
@@ -112,7 +112,7 @@ export default function Session({
 
   const handleSetExampleMessage = (message: string) => {
     setExampleMessage(message);
-    console.log('message: ', message)
+    console.log("message: ", message);
   };
 
   return (
@@ -156,7 +156,11 @@ export default function Session({
         <div
           className={`hidden md:flex flex-col w-72 p-4 bg-sidemenu_bg_light rounded-2xl m-3 h-full gap-4 shadow-sm dark:bg-sidemenu_bg_dark`}
         >
-          <SideDrawer colorMode={colorMode} toggleTheme={toggleTheme} refreshSession={refreshSession} />
+          <SideDrawer
+            colorMode={colorMode}
+            toggleTheme={toggleTheme}
+            refreshSession={refreshSession}
+          />
         </div>
 
         {/*----------------------- right side main content------------------------------------------- */}
@@ -172,16 +176,40 @@ export default function Session({
               <ChatHistory
                 history={history}
                 thinking={chatRoundState === "waiting for model"}
+                showIO={showIO}
+                setShowIO={setShowIO}
+                code={code}
+                chatRoundState={chatRoundState}
+                approverOut={approverOut}
+                autoApproveOut={autoApproveOut}
+                askApproveOut={askApproveOut}
+                codeResult={codeResult}
+                error={error}
+                approverIn={approverIn}
+                autoApproveIn={autoApproveIn}
+                askApproveIn={askApproveIn}
+                colorMode={colorMode}
               />
             )}
             {/* ---------------example cards----------------- */}
-            <div className={`hidden lg:block mt-8 mb-4 w-full ${isGeneratingResponse ? 'lg:hidden' : 'lg:block'}`}>
-              <CardRow setExampleMessage={handleSetExampleMessage} colorMode={colorMode} />
+            <div
+              className={`hidden lg:block mt-8 mb-4 w-full ${
+                isGeneratingResponse ? "lg:hidden" : "lg:block"
+              }`}
+            >
+              <CardRow
+                setExampleMessage={handleSetExampleMessage}
+                colorMode={colorMode}
+              />
             </div>
 
             {/* ---------------mobile only content----------------- */}
 
-            <div className={`flex flex-col items-center mt-4 lg:hidden gap-4 ${isGeneratingResponse ? 'hidden' : 'block'}`}>
+            <div
+              className={`flex flex-col items-center mt-4 lg:hidden gap-4 ${
+                isGeneratingResponse ? "hidden" : "block"
+              }`}
+            >
               {/* limitations */}
 
               <div className="h-auto w-auto mx-4 flex items-center bg-cardLight rounded-xl border border-gray-200 p-4 dark:bg-cardDark dark:border-gray-900">
@@ -213,24 +241,42 @@ export default function Session({
           </div>
 
           {/* examples column */}
-          <div className={`px-8 w-full max-w-4xl flex flex-col items-center gap-4 lg:hidden ${isGeneratingResponse ? 'hidden' : 'block'}`}>
-            <div className="h-auto w-full mx-4 flex flex-col bg-cardLight rounded-lg border border-gray-200 p-2 hover:cursor-pointer dark:bg-cardDark dark:border-gray-900">
+          <div
+            className={`px-8 w-full max-w-4xl flex flex-col items-center gap-4 lg:hidden ${
+              isGeneratingResponse ? "hidden" : "block"
+            }`}
+          >
+            <button
+              onClick={() =>
+                handleSetExampleMessage(
+                  "Make up a story about Sharky, a baby shark in a pond",
+                )
+              }
+              className="h-auto w-full mx-4 flex flex-col bg-cardLight rounded-lg border border-gray-200 p-2 hover:cursor-pointer dark:bg-cardDark dark:border-gray-900"
+            >
               <p className="text-gray-800 text-md font-semibold mb-1 dark:text-white">
                 Make up a story
               </p>
               <p className="text-gray-800 text-sm dark:text-white">
                 about Sharky, a baby shark in a pond
               </p>
-            </div>
+            </button>
 
-            <div className="h-auto w-full mx-4 flex flex-col bg-cardLight rounded-lg border border-gray-200 p-2 hover:cursor-pointer dark:bg-cardDark dark:border-gray-900">
+            <button
+              onClick={() =>
+                setExampleMessage(
+                  "Analyze my pdf and plot a graph from the data",
+                )
+              }
+              className="h-auto w-full mx-4 flex flex-col bg-cardLight rounded-lg border border-gray-200 p-2 hover:cursor-pointer dark:bg-cardDark dark:border-gray-900"
+            >
               <p className="text-gray-800 text-md font-semibold mb-1 dark:text-white">
                 Analyze my pdf
               </p>
               <p className="text-gray-800 text-sm dark:text-white">
                 and plot a graph from the data
               </p>
-            </div>
+            </button>
           </div>
 
           <hr className="w-full my-2 border-t-2 dark:border-gray-900 lg:hidden" />
@@ -242,6 +288,7 @@ export default function Session({
               disabled={chatRoundState !== "not active" || error !== null}
               onMessage={startChatRound}
               exampleMessage={exampleMessage}
+              handleSetExampleMessage={handleSetExampleMessage}
             />
           </div>
         </div>
@@ -253,7 +300,8 @@ export default function Session({
 /**
  * 
  * 
- *  {/* <div
+ *  
+ *  <div
         className={`absolute top-0 right-0 w-1/2 h-full flex flex-col px-4 bg-blue-100 shadow-[0_0_25px_10px_rgba(0,0,0,0.15)] transition-all duration-500 ${
           showIO
             ? ""
@@ -296,4 +344,4 @@ export default function Session({
             />
           </div>
         </div>
-      </div> } */
+      </div>  */

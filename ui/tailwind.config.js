@@ -34,7 +34,7 @@ module.exports = withMT({
         textContainerDark: "#262626",
         iconColorLight: "#1000C8",
         iconColorDark: "#607D8B",
-
+        userContainerDark: "#333333"
       }
     },
   },

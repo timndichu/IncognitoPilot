@@ -13,7 +13,7 @@ interface Props {
 
 const SideDrawer = ({ colorMode, toggleTheme, closeDrawer, refreshSession }: Props) => {
   return (
-    <div className="flex flex-col h-full gap-4">
+    <div className="flex flex-col h-screen gap-4">
       {/* new chat btn */}
       <div className="flex justify-between items-center">
         <button
