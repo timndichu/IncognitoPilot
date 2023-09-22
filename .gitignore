@@ -1,1 +1,3 @@
 .idea
+/venv_interpreter
+start_app.sh

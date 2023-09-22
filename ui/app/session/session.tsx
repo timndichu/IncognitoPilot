@@ -60,11 +60,11 @@ export default function Session({
   const authToken = React.useContext(AuthContext);
 
   const code = history.findLast((msg) => msg.code !== undefined)?.code ?? null;
-  React.useEffect(() => {
-    if (code !== null) {
-      setShowIO(true);
-    }
-  }, [code]);
+  // React.useEffect(() => {
+  //   if (code !== null) {
+  //     setShowIO(true);
+  //   }
+  // }, [code]);
 
   const focusChatInput = () => {
     setTimeout(() => chatInputRef.current && chatInputRef.current.focus(), 100);

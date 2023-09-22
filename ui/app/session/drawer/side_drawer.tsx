@@ -3,6 +3,7 @@ import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 import { IoMdAddCircle } from "react-icons/io";
 import { PiChatsCircleLight } from "react-icons/pi";
 import {CgCloseR} from "react-icons/cg"
+import { AiOutlineUser } from "react-icons/ai";
 
 interface Props {
   colorMode: string;
@@ -85,16 +86,10 @@ const SideDrawer = ({ colorMode, toggleTheme, closeDrawer, refreshSession }: Pro
       <hr className="my-2 border-t-2 dark:border-gray-900" />
 
       <div className="flex items-center mb-4">
-        <div className="relative rounded-full overflow-hidden">
-          <img
-            src={
-              "https://media.istockphoto.com/id/1126648987/photo/grateful-happy-african-man-holding-hands-on-chest-feeling-appreciation.webp?b=1&s=170667a&w=0&k=20&c=OKUDNSK6deePLLq6Ry4zEcJUjdyid3MaUGJCo2Wo8MM="
-            }
-            className="w-14 h-14"
-            alt="logo"
-          />
+        <div className="dark:bg-blue-gray-900 bg-gray-200 rounded-full overflow-hidden p-4 dark:text-white">
+            <AiOutlineUser size={26}/>
         </div>
-        <span className="font-bold ml-2 dark:text-white">Tim N.</span>
+        <span className="font-bold ml-2 dark:text-white">Anon. User</span>
       </div>
     </div>
   );
